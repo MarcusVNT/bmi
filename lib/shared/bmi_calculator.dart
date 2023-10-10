@@ -11,7 +11,9 @@ class BMICalculator extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.blueGrey,
-          textTheme: GoogleFonts.robotoTextTheme()),
+          textTheme: GoogleFonts.latoTextTheme(
+            Theme.of(context).textTheme,
+          )),
       home: const EnterPage(),
     );
   }
