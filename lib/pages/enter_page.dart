@@ -1,3 +1,4 @@
+import 'package:bmi/shared/widgets/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,7 +30,7 @@ class _EnterPageState extends State<EnterPage> {
                 ),
                 child: Column(children: [
                   const SizedBox(
-                    height: 160,
+                    height: 200,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -51,22 +52,36 @@ class _EnterPageState extends State<EnterPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 160,
+                        height: 80,
                       ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.person,
-                            size: 100,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const EnterPage(),
+                                  ));
+                            },
+                            child: Image.asset(
+                              AppImages.mulher,
+                              height: 240,
+                            ),
                           ),
-                          SizedBox(
-                            width: 64,
-                          ),
-                          Icon(
-                            Icons.person,
-                            size: 100,
-                          ),
+                          // const SizedBox(
+                          //   width: 64,
+                          // ),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const EnterPage(),
+                                    ));
+                              },
+                              child: Image.asset(AppImages.homem, height: 184)),
                         ],
                       )
                     ],
