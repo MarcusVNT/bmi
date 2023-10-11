@@ -1,3 +1,6 @@
+import 'package:bmi/models/person.dart';
+import 'package:bmi/pages/enter_page.dart';
+import 'package:bmi/pages/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,6 +16,8 @@ class _CalculationPageState extends State<CalculationPage> {
   var ageController = TextEditingController(text: "");
   var heightController = TextEditingController(text: "");
   var weightController = TextEditingController(text: "");
+
+  List<Person> results = [];
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +118,39 @@ class _CalculationPageState extends State<CalculationPage> {
             const SizedBox(height: 80),
             TextButton(
               onPressed: () {
+                if (nameController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Por favor, informe o seu nome.'),
+                    ),
+                  );
+                  return;
+                }
+                if (ageController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Por favor, informe a sua idade.'),
+                    ),
+                  );
+                  return;
+                }
+                if (heightController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Por favor, informe a sua altura.'),
+                    ),
+                  );
+                  return;
+                }
+                if (weightController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Por favor, informe o seu peso.'),
+                    ),
+                  );
+                  return;
+                }
+
                 double bmi = double.parse(weightController.text) /
                     (double.parse(heightController.text) *
                         double.parse(heightController.text));
@@ -122,6 +160,21 @@ class _CalculationPageState extends State<CalculationPage> {
                 print(heightController.text);
                 print(weightController.text);
                 print(bmi);
+
+                var result = Person(
+                    nameController.text,
+                    int.parse(ageController.text),
+                    double.parse(weightController.text),
+                    double.parse(heightController.text),
+                    bmi);
+
+                results.add(result);
+
+                Future.delayed(const Duration(seconds: 3), () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ResultPage(results: results);
+                  }));
+                });
               },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
@@ -138,6 +191,19 @@ class _CalculationPageState extends State<CalculationPage> {
               ),
               child: Text('Calcular', style: GoogleFonts.poppins(fontSize: 20)),
             ),
+            const SizedBox(height: 32),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ResultPage(
+                      results: results,
+                    );
+                  }));
+                },
+                child: Text(
+                  "Resultados",
+                  style: GoogleFonts.poppins(fontSize: 20, color: Colors.white),
+                )),
             Container(
                 margin: const EdgeInsets.only(top: 160),
                 child:
