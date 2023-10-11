@@ -9,6 +9,11 @@ class CalculationPage extends StatefulWidget {
 }
 
 class _CalculationPageState extends State<CalculationPage> {
+  var nameController = TextEditingController(text: "");
+  var ageController = TextEditingController(text: "");
+  var heightController = TextEditingController(text: "");
+  var weightController = TextEditingController(text: "");
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,13 +51,14 @@ class _CalculationPageState extends State<CalculationPage> {
                     ],
                   )),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 32),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 12),
-              child: const Column(
+              child: Column(
                 children: [
                   TextField(
-                    decoration: InputDecoration(
+                    controller: nameController,
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 8,
                       ),
@@ -62,9 +68,10 @@ class _CalculationPageState extends State<CalculationPage> {
                       prefixIcon: Icon(Icons.person),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   TextField(
-                    decoration: InputDecoration(
+                    controller: ageController,
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 8,
                       ),
@@ -74,9 +81,10 @@ class _CalculationPageState extends State<CalculationPage> {
                       prefixIcon: Icon(Icons.calendar_today),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   TextField(
-                    decoration: InputDecoration(
+                    controller: heightController,
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 8,
                       ),
@@ -86,9 +94,10 @@ class _CalculationPageState extends State<CalculationPage> {
                       prefixIcon: Icon(Icons.height),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   TextField(
-                    decoration: InputDecoration(
+                    controller: weightController,
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 8,
                       ),
@@ -103,7 +112,17 @@ class _CalculationPageState extends State<CalculationPage> {
             ),
             const SizedBox(height: 80),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                double bmi = double.parse(weightController.text) /
+                    (double.parse(heightController.text) *
+                        double.parse(heightController.text));
+
+                print(nameController.text);
+                print(ageController.text);
+                print(heightController.text);
+                print(weightController.text);
+                print(bmi);
+              },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.symmetric(horizontal: 120, vertical: 8)),
