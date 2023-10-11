@@ -1,3 +1,4 @@
+import 'package:bmi/pages/calculation_page.dart';
 import 'package:bmi/shared/widgets/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,20 +36,23 @@ class _EnterPageState extends State<EnterPage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Informe seu gênero e calcule seu IMC:',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.josefinSans(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          shadows: [
-                            const Shadow(
-                              blurRadius: 20.0,
-                              color: Color.fromARGB(255, 38, 37, 80),
-                              offset: Offset(2.0, 5.0),
-                            ),
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Informe seu gênero e calcule seu Indice de Massa Corporal:',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.josefinSans(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            shadows: [
+                              const Shadow(
+                                blurRadius: 20.0,
+                                color: Color.fromARGB(255, 38, 37, 80),
+                                offset: Offset(2.0, 5.0),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -62,7 +66,8 @@ class _EnterPageState extends State<EnterPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const EnterPage(),
+                                    builder: (context) =>
+                                        const CalculationPage(),
                                   ));
                             },
                             child: Image.asset(
@@ -78,7 +83,8 @@ class _EnterPageState extends State<EnterPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const EnterPage(),
+                                      builder: (context) =>
+                                          const CalculationPage(),
                                     ));
                               },
                               child: Image.asset(AppImages.homem, height: 184)),
