@@ -30,8 +30,18 @@ class _ResultPageState extends State<ResultPage> {
                 return Card(
                   child: ListTile(
                     title: Text(widget.results[index].name),
-                    subtitle: Text(
-                        "IMC: ${widget.results[index].bmi.toStringAsFixed(2)}"),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Idade: ${widget.results[index].age}"),
+                        Text("Altura: ${widget.results[index].height}"),
+                        Text("Peso: ${widget.results[index].weight}"),
+                        Text(
+                            "IMC: ${widget.results[index].bmi.toStringAsFixed(2)}"),
+                        Text(
+                            "Diagnóstico:  ${widget.results[index].diagnostic}")
+                      ],
+                    ),
                   ),
                 );
               },

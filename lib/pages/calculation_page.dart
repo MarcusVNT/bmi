@@ -1,5 +1,4 @@
 import 'package:bmi/models/person.dart';
-import 'package:bmi/pages/enter_page.dart';
 import 'package:bmi/pages/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +15,7 @@ class _CalculationPageState extends State<CalculationPage> {
   var ageController = TextEditingController(text: "");
   var heightController = TextEditingController(text: "");
   var weightController = TextEditingController(text: "");
+  String diagnostic = "";
 
   List<Person> results = [];
 
@@ -155,22 +155,37 @@ class _CalculationPageState extends State<CalculationPage> {
                     (double.parse(heightController.text) *
                         double.parse(heightController.text));
 
-                print(nameController.text);
-                print(ageController.text);
-                print(heightController.text);
-                print(weightController.text);
-                print(bmi);
+                if (bmi < 18.5) {
+                  diagnostic = "Abaixo do peso";
+                } else if (bmi <= 24.9) {
+                  diagnostic = "Peso normal";
+                } else if (bmi <= 29.9) {
+                  diagnostic = "Sobrepeso";
+                } else if (bmi <= 34.9) {
+                  diagnostic = "Obesidade grau 1";
+                } else if (bmi <= 39.9) {
+                  diagnostic = "Obesidade grau 2";
+                } else if (bmi >= 40) {
+                  diagnostic = "Obesidade grau 3";
+                }
+
+                // print(nameController.text);
+                // print(ageController.text);
+                // print(heightController.text);
+                // print(weightController.text);
+                // print(bmi);
 
                 var result = Person(
                     nameController.text,
                     int.parse(ageController.text),
                     double.parse(weightController.text),
                     double.parse(heightController.text),
-                    bmi);
+                    bmi,
+                    diagnostic);
 
                 results.add(result);
 
-                Future.delayed(const Duration(seconds: 3), () {
+                Future.delayed(const Duration(milliseconds: 2), () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return ResultPage(results: results);
                   }));
