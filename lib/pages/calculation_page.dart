@@ -54,7 +54,14 @@ class _CalculationPageState extends State<CalculationPage> {
         weightController.text = calculationModel.weight.toString();
       });
     }
-    // setState(() {});
+    setState(() {
+      // Limpe os campos e a variável diagnostic
+      nameController.text = "";
+      ageController.text = "";
+      heightController.text = "";
+      weightController.text = "";
+      diagnostic = "";
+    });
   }
 
   @override
