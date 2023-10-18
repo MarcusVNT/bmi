@@ -7,12 +7,12 @@ class Utilities {
   }
 
   static String readStringWithText(String text) {
-    print(text);
+    // print(text);
     return readString();
   }
 
   static int? readIntWithText(String text) {
-    print(text);
+    // print(text);
     var value = readString();
     try {
       return int.tryParse(value);
@@ -31,7 +31,7 @@ class Utilities {
   }
 
   static double? readDoubleWithText(String text) {
-    print(text);
+    // print(text);
     return readDouble();
   }
 }

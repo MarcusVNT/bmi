@@ -1,5 +1,7 @@
-import 'package:bmi/models/person.dart';
+import 'package:bmi/models/calculation_model.dart';
+// import 'package:bmi/models/person.dart';
 import 'package:bmi/pages/result_page.dart';
+import 'package:bmi/repositories/calculation_page_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,13 +13,49 @@ class CalculationPage extends StatefulWidget {
 }
 
 class _CalculationPageState extends State<CalculationPage> {
+  var result = <CalculationModel>[];
+  late CalculationPageRepository calculationPageRepository;
+  var calculationModel = CalculationModel.vazio();
+
   var nameController = TextEditingController(text: "");
   var ageController = TextEditingController(text: "");
   var heightController = TextEditingController(text: "");
   var weightController = TextEditingController(text: "");
   String diagnostic = "";
 
-  List<Person> results = [];
+  List<CalculationModel> results = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    obterDados();
+  }
+
+  void obterDados() async {
+    calculationPageRepository = await CalculationPageRepository.load();
+    // calculationModel = calculationPageRepository.obterDados();
+    // calculationModel = calculationPageRepository.obterDados().isNotEmpty
+    //     ? calculationPageRepository.obterDados().first
+    //     : CalculationModel.vazio();
+
+    // nameController.text = calculationModel.name ?? "";
+    // ageController.text = calculationModel.age.toString();
+    // heightController.text = calculationModel.height.toString();
+    // weightController.text = calculationModel.weight.toString();
+
+    final data = calculationPageRepository.obterDados();
+    if (data.isNotEmpty) {
+      setState(() {
+        calculationModel = data.first;
+        nameController.text = calculationModel.name ?? "";
+        ageController.text = calculationModel.age.toString();
+        heightController.text = calculationModel.height.toString();
+        weightController.text = calculationModel.weight.toString();
+      });
+    }
+    // setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +155,7 @@ class _CalculationPageState extends State<CalculationPage> {
             ),
             const SizedBox(height: 80),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 if (nameController.text.trim().isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -169,21 +207,28 @@ class _CalculationPageState extends State<CalculationPage> {
                   diagnostic = "Obesidade grau 3";
                 }
 
-                // print(nameController.text);
-                // print(ageController.text);
-                // print(heightController.text);
-                // print(weightController.text);
-                // print(bmi);
-
-                var result = Person(
+                final result = CalculationModel.create(
                     nameController.text,
                     int.parse(ageController.text),
                     double.parse(weightController.text),
                     double.parse(heightController.text),
                     bmi,
-                    diagnostic);
+                    diagnostic,
+                    DateTime.now());
+
+                await calculationPageRepository.save(result);
 
                 results.add(result);
+
+                setState(() {
+                  calculationModel = result;
+                  // Limpe os campos e a variável diagnostic
+                  nameController.text = "";
+                  ageController.text = "";
+                  heightController.text = "";
+                  weightController.text = "";
+                  diagnostic = "";
+                });
 
                 Future.delayed(const Duration(milliseconds: 2), () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -210,9 +255,7 @@ class _CalculationPageState extends State<CalculationPage> {
             TextButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ResultPage(
-                      results: results,
-                    );
+                    return ResultPage(results: results);
                   }));
                 },
                 child: Text(
